@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>App</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/app.css"/>
+</head>
+<body >
+
+<div class="container">
+
+  <h1> Music Links </h1>
+  <form action="javascript:" >
+    <label for="link"> URL: <input type="text" name="link" id="link"> </label>
+    <label for="name"> Name: <input type="text" name="title" id="title"></label>
+    <input type="submit" class="btn" onclick="formSubmit()">
+  </form>
+
+  <ul id="linkList">
+  </ul>
+
+</div>
+</body>
+  <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+  <script src="lib/jquery.js"></script>
+  <script src="lib/bootstrap.min.js"></script>
+  <script src="js/app.js"></script>
+  
+</html>
