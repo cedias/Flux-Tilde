@@ -55,7 +55,7 @@ MusicLinks.prototype.play = function(trackNumber){
 
 			that.musicPlayer = musicPlayer;
 	  		musicPlayer.play();
-	  		musicPlayer.onfinish(that.play(nextTrack))
+	  		//musicPlayer.onfinish(that.play(nextTrack)) infinite loop
 		});
 	}
 }
