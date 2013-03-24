@@ -1,21 +1,30 @@
 
-function formSubmit(form){
 
-var name = $("#title").val();
-var url = $("#link").val()
+var ml = new MusicLinks('music-links.firebaseIO.com','3f45abb44a7e483b35d0b04047849967');
 
-linkSubmit(name,url);
-}
-
-
-function linkSubmit(name,url){
-	var bd = new Firebase('music-links.firebaseIO.com');
-	bd.push({name:name, url:url});
-}
-
-var listRef = new Firebase('music-links.firebaseIO.com');
-listRef.on('child_added', function(snapshot) {
-  var msgData = snapshot.val();
-  	$("#linkList").append("<li><a href=\""+msgData.url+"\">"+ msgData.name+"</a></li>");
-
+$("#linkForm").on('click', function(){
+	var url = $("#link").val();
+	ml.post(url);
 });
+
+$("#play").on('click', function(){
+	ml.play(0);
+})
+
+$("#pause").on('click', function(){
+	ml.pause();
+})
+
+
+var source   = $("#element-template").html();
+ml.bindList(linkList, source);
+
+
+
+
+
+
+/*
+SC.stream("/tracks/293", function(sound){
+  sound.play();
+});*/

@@ -11,20 +11,31 @@
 <div class="container">
 
   <h1> Music Links </h1>
-  <form action="javascript:" >
-    <label for="link"> URL: <input type="text" name="link" id="link"> </label>
-    <label for="name"> Name: <input type="text" name="title" id="title"></label>
-    <input type="submit" class="btn" onclick="formSubmit()">
-  </form>
+  <div  class="well">
+    <input type="text" name="link" id="link" placeholder="Enter a Soundcloud URL" />
+    <button id="linkForm" class="btn  btn-primary" type="button">Add to playlist</button>
+    <div>
+      <button id="play"> Play </button>
+      <button id="pause"> Pause </button>
+    </div>
+  </div>
+    
 
   <ul id="linkList">
   </ul>
+
+<script id="element-template" type="text/x-handlebars-template">
+   <li> <a href="{{url}}" ><img src="{{ info.artwork_url }}" /> {{ info.user.username }} - {{ info.title }} </a> </li>
+</script>
 
 </div>
 </body>
   <script src='https://cdn.firebase.com/v0/firebase.js'></script>
   <script src="lib/jquery.js"></script>
   <script src="lib/bootstrap.min.js"></script>
+  <script src="lib/handlebars.js"></script>
+  <script src="http://connect.soundcloud.com/sdk.js"></script>
+  <script src="js/MusicLinks.js"></script>
   <script src="js/app.js"></script>
   
 </html>
