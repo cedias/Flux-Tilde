@@ -6,31 +6,35 @@
   <link rel="stylesheet" href="css/bootstrap.min.css"/>
   <link rel="stylesheet" href="css/app.css"/>
 </head>
-<body >
+<body>
+  <div class="container">
+    <h1> Charly &amp; les mexiconneries </h1>
 
-<div class="container">
-
-  <h1> Music Links </h1>
-  <div  class="well">
-    <input type="text" name="link" id="link" placeholder="Enter a Soundcloud URL" />
-    <button id="linkForm" class="btn  btn-primary" type="button">Add to playlist</button>
-    <div>
-      <button id="play"> Play </button>
-      <button id="pause"> Pause </button>
+    <ul id="linkList">
+    </ul>
+    
+    <div id="player">
+        <button id="play"> Play </button>
+        <button id="pause"> Pause </button>
     </div>
   </div>
-    
 
-  <ul id="linkList">
-  </ul>
+  <div id="footer" class="container">
+    <div>
+      <input type="text" name="link" id="link" placeholder="Enter a Soundcloud URL" />
+      <button id="linkForm" class="btn  btn-primary" type="button">Add to playlist</button>
+    </div>
+  </div>
+</body>
 
- <script id="element-template" type="text/x-handlebars-template">
-   <li> <img src="{{ info.user.avatar_url }}" /> {{ info.user.username }} - {{ info.title }} </li>
+  <script id="element-template" type="text/x-handlebars-template">
+        {{#if info.artwork_url}}
+          <li> <img src="{{ info.artwork_url }}" /> </li>
+        {{else}}
+          <li> <img src="{{ info.user.avatar_url }}" /> </li>
+        {{/if}}
   </script>
 
-
-</div>
-</body>
   <script src='https://cdn.firebase.com/v0/firebase.js'></script>
   <script src="lib/jquery.js"></script>
   <script src="lib/bootstrap.min.js"></script>

@@ -6,3 +6,20 @@ margin-bottom: 0px;
 li {
   cursor:pointer;
 }
+
+ul > *
+{
+  display: inline-block;
+}
+
+#footer {
+
+position: fixed;
+bottom: 0px;
+height: 100px;
+background-color: #e8e8e8;
+width: 100%;
+border-top: 1px solid black;
+padding:15px 15px 15px 15px;
+
+}
