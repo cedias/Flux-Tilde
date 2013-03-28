@@ -98,7 +98,7 @@ MusicLinks.prototype.post = function(url) {
 	if(url !== ''){
 
 		SC.get("http://api.soundcloud.com/resolve.json",parameters, function(resp){
-			if(resp.errors === undefined)
+			if(resp.errors === undefined && resp.kind === "track")
 				bd.push({url:url, info:resp});
 			else
 				console.log("Wrong Soundcloud link");
