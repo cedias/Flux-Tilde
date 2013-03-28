@@ -2,3 +2,7 @@ input#link
 {
 margin-bottom: 0px;
 }
+
+li {
+  cursor:pointer;
+}
