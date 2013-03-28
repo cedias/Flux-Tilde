@@ -20,11 +20,12 @@ MusicLinks.prototype._init = function(){
 	//init soundcloud api
 	SC.initialize({client_id:this.soundcloudId});
 
-	//binds firebase list to app
-	this._bindList();
-
-	//bind controls
+	//bind player controls
 	this._bindControls();
+
+	//binds firebase list to app
+	if(this.binds.elementList !== undefined)
+		this._bindList();
 
 };
 
@@ -38,6 +39,7 @@ MusicLinks.prototype._bindList = function() {
 
 		//reseting linklist
 		that.linkList = [];
+		$(b.elementList).html("");
 
 		//iterating over links
 		snapshot.forEach(function(child){
