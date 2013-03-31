@@ -165,8 +165,14 @@ MusicLinks.prototype.stop = function(){
 }
 
 MusicLinks.prototype.pause = function(){
+var button = $(this.binds.pause);
+
+	if(button.html() === "Pause")
+		button.html("Play");
+	else
+		button.html("Pause");
+
 
 	if(this.musicPlayer !== undefined)
 		this.musicPlayer.togglePause();
-
 }
