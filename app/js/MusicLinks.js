@@ -82,12 +82,19 @@ MusicLinks.prototype._bindControls = function() {
 
 	$(b.play).on('click', function(){
 		that.play(0);
-	})
+	});
 
-	$("#pause").on('click', function(){
+	$(b.pause).on('click', function(){
 		that.pause();
-	})
+	});
 
+	$(b.next).on('click',function(){
+		that.next();
+	});
+
+	$(b.previous).on('click',function(){
+		that.previous();
+	});
 
 }
 
@@ -120,6 +127,7 @@ MusicLinks.prototype.play = function(trackNumber){
 		console.log('playing ' +this.track)
 		console.log(this.linkList);
 	}
+
 	var that = this;
 	var trackUrl = "/tracks/" + this.linkList[trackNumber].info.id;
 
@@ -128,7 +136,7 @@ MusicLinks.prototype.play = function(trackNumber){
 		that.musicPlayer = musicPlayer;
   		that.musicPlayer.play();
 	});
-	
+
 }
 
 MusicLinks.prototype.next = function(){
@@ -141,7 +149,7 @@ MusicLinks.prototype.next = function(){
 MusicLinks.prototype.previous = function(){
 
 	this.track -= 1;
-	
+
 	if(this.track < 0){
 		this.track = this.linkList.length-1;
 	}
