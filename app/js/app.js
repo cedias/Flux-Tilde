@@ -7,7 +7,6 @@ var options = {
 		post:'#linkForm',
 		link:'#link',
 		play:'#play',
-		pause:'#pause',
 		next:'#next',
 		previous:'#previous',
 		elementList:'#linkList',

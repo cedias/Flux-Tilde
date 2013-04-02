@@ -3,13 +3,14 @@ function MusicLinks (args) {
 
 	//options
 	this.soundcloudId = args.soundcloudId;
-	this.firebase = new Firebase(args.firebase);
 	this.binds = args.binds;
 	this.debug = args.debug;
+	this.firebase = new Firebase(args.firebase);
 
 	//attributes
 	this.linkList = [];
 	this.track = 0;
+	this.playerStatus = "none";
 
 	this._init();
 
@@ -81,11 +82,7 @@ MusicLinks.prototype._bindControls = function() {
 	});
 
 	$(b.play).on('click', function(){
-		that.play(0);
-	});
-
-	$(b.pause).on('click', function(){
-		that.pause();
+		that.togglePlay();
 	});
 
 	$(b.next).on('click',function(){
@@ -128,23 +125,32 @@ MusicLinks.prototype.play = function(trackNumber){
 		console.log(this.linkList);
 	}
 
+	this.playerStatus = "playing";
+	this.togglePlay();
+
 	var that = this;
 	var trackUrl = "/tracks/" + this.linkList[trackNumber].info.id;
 
 
-	SC.stream(trackUrl,function(musicPlayer){
-		that.musicPlayer = musicPlayer;
-  		that.musicPlayer.play();
+	SC.stream(trackUrl,{
+		autoPlay:true,
+		multiShotEvents: true,
+		onfinish:function(){that.next();},
+	}, function(player){
+		that.musicPlayer = player;
 	});
 
-}
+};
 
 MusicLinks.prototype.next = function(){
+	if(this.debug)
+		console.log("Switching to next track");
+
 	this.track = ((this.track + 1)%this.linkList.length);
 
 	if(this.musicPlayer !== undefined)
 		this.play();
-}
+};
 
 MusicLinks.prototype.previous = function(){
 
@@ -156,23 +162,29 @@ MusicLinks.prototype.previous = function(){
 
 	if(this.musicPlayer !== undefined)
 		this.play();
-}
+};
 
 MusicLinks.prototype.stop = function(){
+	this.playerStatus = "stopped";
 
 	if(this.musicPlayer !== undefined)
 		this.musicPlayer.stop();
-}
+};
 
 MusicLinks.prototype.pause = function(){
-var button = $(this.binds.pause);
-
-	if(button.html() === "Pause")
-		button.html("Play");
-	else
-		button.html("Pause");
-
 
 	if(this.musicPlayer !== undefined)
 		this.musicPlayer.togglePause();
-}
+};
+
+MusicLinks.prototype.togglePlay = function() {
+	var button = $(this.binds.play+">i");
+	button.removeClass();
+
+	if(this.playerStatus === "none" || this.playerStatus === "stopped")
+		button.addClass("icon-play");
+	else
+		button.addClass("icon-pause");
+
+	this.pause();
+};

@@ -15,6 +15,7 @@ ul > *
 #footer {
 
 position: fixed;
+visibility: hidden;
 bottom: 0px;
 height: 100px;
 background-color: #e8e8e8;
@@ -25,6 +26,8 @@ padding:10px 15px 15px 15px;
 }
 
 #player {
-	width: 25%;
+	padding-top: 15px;
+	width: 30%;
+	margin: auto;
 }
 
