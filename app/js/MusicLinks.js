@@ -2,13 +2,16 @@
 function MusicLinks (args) {
 
 	//options
-	this.soundcloudId = args.soundcloudId;
+	this.soundcloudId = args.soundcloud_id;
 	this.binds = args.binds;
+	this.templates = args.templates;
 	this.debug = args.debug;
 	this.firebase = new Firebase(args.firebase);
 
+
+
 	//attributes
-	this.linkList = [];
+	this.tracks = [];
 	this.track = 0;
 	this.playerStatus = "none";
 
@@ -16,6 +19,7 @@ function MusicLinks (args) {
 
 }
 
+/*Initialize Soundcloud & Binds view w/ events*/
 MusicLinks.prototype._init = function(){
 
 	//init soundcloud api
@@ -25,22 +29,23 @@ MusicLinks.prototype._init = function(){
 	this._bindControls();
 
 	//binds firebase list to app
-	if(this.binds.elementList !== undefined)
+	if(this.binds.element_list !== undefined)
 		this._bindList();
 
 };
 
+/* binds the Firebase list with the html view */
 MusicLinks.prototype._bindList = function() {
 	var that = this;
 	var b = this.binds;
-	var template = $(b.template).html();
+	var template = $(this.templates.element).html();
 
 	//on dataChange
 	this.firebase.on('value', function(snapshot) {
 
-		//reseting linklist
-		that.linkList = [];
-		$(b.elementList).html("");
+		//reseting tracks
+		that.tracks = [];
+		$(b.element_list).html("");
 
 		//iterating over links
 		snapshot.forEach(function(child){
@@ -49,9 +54,9 @@ MusicLinks.prototype._bindList = function() {
 	  		var temp = Handlebars.compile(template);
 
 	  		//saving each track
-			that.linkList.push(child.val());
+			that.tracks.push(child.val());
 			//adding element to list
-	  		$(b.elementList).append(temp(msgData));
+	  		$(b.element_list).append(temp(msgData));
 
 		});
 
@@ -60,7 +65,7 @@ MusicLinks.prototype._bindList = function() {
 		$(b.elementList+' li').off('click');
 
 		//binding clickEvent on music list
-	  	var items = $(b.elementList+' li').on('click',function() {
+	  	var items = $(b.element_list+' li').on('click',function() {
 			    var index = items.index(this);
 			    that.togglePlay(index);
 			    if(that.debug){
@@ -71,6 +76,7 @@ MusicLinks.prototype._bindList = function() {
 	});
 };
 
+/*Binds the player controls*/
 MusicLinks.prototype._bindControls = function() {
 	var b = this.binds;
 	var that = this;
@@ -82,21 +88,19 @@ MusicLinks.prototype._bindControls = function() {
 
 	$(b.play).on('click', function(){
 		that.togglePlay();
-		that.updateTrackInfo();
 	});
 
 	$(b.next).on('click',function(){
 		that.next();
-		that.updateTrackInfo();
 	});
 
 	$(b.previous).on('click',function(){
 		that.previous();
-		that.updateTrackInfo();
 	});
 
 }
 
+/*Stream the sound list*/
 MusicLinks.prototype._play = function(trackNumber){
 
 	if(this.musicPlayer !== undefined)
@@ -110,12 +114,13 @@ MusicLinks.prototype._play = function(trackNumber){
 
 	if(this.debug){
 		console.log('playing :');
-		console.log(this.linkList[this.track]);
+		console.log(this.tracks[this.track]);
 	}
 
 
 	var that = this;
-	var trackUrl = "/tracks/" + this.linkList[trackNumber].info.id;
+	var trackUrl = "/tracks/" + this.tracks[trackNumber].info.id;
+	this.updateTrackInfo();
 
 
 	SC.stream(trackUrl,{
@@ -152,7 +157,7 @@ MusicLinks.prototype.next = function(){
 		if(this.debug)
 			console.log("Switching to next track");
 
-		this.track = ((this.track + 1)%this.linkList.length);
+		this.track = ((this.track + 1)%this.tracks.length);
 		this.togglePlay(this.track);
 	}
 };
@@ -160,10 +165,13 @@ MusicLinks.prototype.next = function(){
 MusicLinks.prototype.previous = function(){
 	if(this.musicPlayer !== undefined){
 
+		if(this.debug)
+			console.log("Switching to previous track");
+
 		this.track -= 1;
 
 		if(this.track < 0){
-			this.track = this.linkList.length-1;
+			this.track = this.tracks.length-1;
 		}
 
 		this.togglePlay(this.track);
@@ -214,7 +222,11 @@ MusicLinks.prototype.togglePlay = function(track) {
  };
 
  MusicLinks.prototype.updateTrackInfo = function() {
- 	var b = this.binds;
+ 	var template = $(this.templates.info).html();
+ 	var infoBox = $(this.binds.info);
+ 	var track = this.tracks[this.track];
+ 	var temp = Handlebars.compile(template);
 
+ 	infoBox.html(temp(track));
 
  };

@@ -1,32 +1,106 @@
+body > *{
+	margin-left: 100px;
+
+}
+
+html {margin-top: 0px;
+	padding-top: 0px;}
+
 input#link
 {
-margin-bottom: 0px;
+margin-bottom: 5px;
 }
 
 li {
   cursor:pointer;
 }
 
-ul > *
+h1{
+	padding-top: 5px;
+	margin-top: 0px;
+	color: #fff;
+	font-size: 55px;
+    letter-spacing: -4px; 
+}
+.track {
+margin-left: 5px;
+
+}
+
+.track > img
 {
-  display: inline-block;
+  margin:auto;
+  width: 100px;
+}
+
+.track > img:hover {
+	opacity: 0.5;
+}
+
+#header{
+
+	height: 80px;
+	padding-top: 10px;
+	padding-left: 1%;
+	width: 100%;
+	background-color: #000;
+
+}
+
+#header_contrast {
+	margin-left: -1%;
+	background-color: black;
+	box-shadow: 5px 5px 5px white;
+}
+
+#tracks{
+	height: 100%;
+	background-color: black;
+	top : 0%;
+	left: 0px;
+	margin-left: 0px;
+	position: fixed;
+	overflow: auto;
 }
 
 #footer {
 
-position: fixed;
-visibility: hidden;
-bottom: 0px;
-height: 100px;
-background-color: #e8e8e8;
-width: 100%;
-border-top: 1px solid black;
+position: absolute;
+height: 140px;
+width: 230px;
+top:-5px;
+right:10%;
+background-color: #fafafa;
+border-radius: 5px;
+box-shadow: 2px 5px 5px black;
 padding:10px 15px 15px 15px;
 
 }
 
-#player {
+#controls {
+	position: absolute;
 	width: 130px;
 	margin: auto;
+	bottom: -5px;
+	height: 40px;
+	right:50%;
+	background-color: #fafafa;
+	border-radius: 5px;
+	box-shadow: 2px 5px 5px black;
+	padding:10px 15px 15px 15px;
+	overflow: hidden;
 }
+ #info {
+ 	width:100%;
 
+ }
+
+ #info > img {
+ 	border: 5px solid black;
+ }
+
+
+#tracks_div ::-webkit-scrollbar{width:9px;height:9px;}
+#tracks_div ::-webkit-scrollbar-button:start:decrement,#tracks_div ::-webkit-scrollbar-button:end:increment{display:block;height:0;background-color:transparent;}
+#tracks_div ::-webkit-scrollbar-track-piece{background-color:#0; padding-right: 5px;}
+#tracks_div ::-webkit-scrollbar-thumb:vertical{background-color:#aaa;}

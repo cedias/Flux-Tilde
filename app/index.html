@@ -2,23 +2,38 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>App</title>
+  <title>Flux.me</title>
   <link rel="stylesheet" href="css/bootstrap.min.css"/>
   <link rel="stylesheet" href="css/app.css"/>
 </head>
 <body>
-  <div class="container">
-     <div id="player">
-        <h3 id="song_title"></h3>
-        <button id="previous" class="btn"><i class="icon-backward"> </i> </button>
-        <button id="play" class="btn"><i class="icon-play"> </i></button>
-        <button id="next" class="btn"><i class="icon-forward"> </i></button>
-    </div>
-    <h1> Music </h1>
-    <ul id="linkList">
+  <div id="header" >
+    <h1>Flux~</h1>
+    <div id="header_contrast"> &zwnj;</div>
+  </div>
+
+  <div id="tracks_div"> 
+    <ul id="tracks">
     </ul>
   </div>
 
+  <div class="container">
+     <div id="player">
+        <div id="controls">
+          <button id="previous" class="btn "><i class="icon-backward"> </i> </button>
+          <button id="play" class="btn "><i class="icon-play"> </i></button>
+          <button id="next" class="btn "><i class="icon-forward"> </i></button>
+      </div>
+    </div>
+    
+
+    <div id="info" >
+    </div>
+
+  </div>
+
+  
+ 
   <div id="footer" class="container">
     <h3>Admin</h3>
     <div>
@@ -30,18 +45,27 @@
 
   <script id="element-template" type="text/x-handlebars-template">
         {{#if info.artwork_url}}
-          <li> <img src="{{ info.artwork_url }}" /> </li>
+          <li class="track"> <img src="{{ info.artwork_url }}" /> </li>
         {{else}}
-          <li> <img src="{{ info.user.avatar_url }}" /> </li>
+          <li class="track"> <img src="{{ info.user.avatar_url }}" /> </li>
         {{/if}}
   </script>
 
-  <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+  <script id="info-template" type="text/x-handlebars-template">
+      <img src="{{info.user.avatar_url}}" />
+      <h3> {{info.user.username}} <br /> <a href="{{ info.permalink_url }}"> {{info.title}}</a></h3> 
+      <p>  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada neque augue, a malesuada diam. Nulla sit amet tellus et ante convallis volutpat eget eu mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque adipiscing scelerisque auctor. Fusce laoreet aliquet vulputate. Integer rhoncus fermentum molestie. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat. Phasellus eros sem, lobortis et pretium nec, blandit eu neque. Sed vel eros commodo risus posuere tristique eu quis dolor. Nunc vitae tortor dolor. </p>
+      
+    </div>
+  </script>
+
   <script src="lib/jquery.js"></script>
   <script src="lib/bootstrap.min.js"></script>
   <script src="lib/handlebars.js"></script>
+  <script src='https://cdn.firebase.com/v0/firebase.js'></script>
   <script src="http://connect.soundcloud.com/sdk.js"></script>
   <script src="js/MusicLinks.js"></script>
+
   <script src="js/app.js"></script>
 
 </html>
