@@ -8,6 +8,7 @@ var options = {
 		link:'#link',
 		play:'#play',
 		next:'#next',
+		trackInfo: '#trackInfo',
 		previous:'#previous',
 		elementList:'#linkList',
 		template:'#element-template'

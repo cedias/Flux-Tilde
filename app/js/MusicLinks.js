@@ -62,8 +62,7 @@ MusicLinks.prototype._bindList = function() {
 		//binding clickEvent on music list
 	  	var items = $(b.elementList+' li').on('click',function() {
 			    var index = items.index(this);
-			    that.play(index);
-
+			    that.togglePlay(index);
 			    if(that.debug){
 			    	console.log("Clicked on: " +index);
 			    }
@@ -78,24 +77,59 @@ MusicLinks.prototype._bindControls = function() {
 
 	$(b.post).on('click', function(){
 		var url = $(b.link).val();
-		that.post(url);
+		that._post(url);
 	});
 
 	$(b.play).on('click', function(){
 		that.togglePlay();
+		that.updateTrackInfo();
 	});
 
 	$(b.next).on('click',function(){
 		that.next();
+		that.updateTrackInfo();
 	});
 
 	$(b.previous).on('click',function(){
 		that.previous();
+		that.updateTrackInfo();
 	});
 
 }
 
-MusicLinks.prototype.post = function(url) {
+MusicLinks.prototype._play = function(trackNumber){
+
+	if(this.musicPlayer !== undefined)
+		this.musicPlayer.stop();
+
+
+	if(trackNumber === undefined)
+		var trackNumber = this.track;
+	else
+		this.track = trackNumber;
+
+	if(this.debug){
+		console.log('playing :');
+		console.log(this.linkList[this.track]);
+	}
+
+
+	var that = this;
+	var trackUrl = "/tracks/" + this.linkList[trackNumber].info.id;
+
+
+	SC.stream(trackUrl,{
+		onfinish:function(){
+			that.next();
+		},
+	}, function(player){
+		player.play();
+		that.musicPlayer = player;
+	});
+
+};
+
+MusicLinks.prototype._post = function(url) {
 	var bd = this.firebase;
 	var parameters = {url:url, client_id: this.client_id};
 
@@ -110,81 +144,77 @@ MusicLinks.prototype.post = function(url) {
 	}
 };
 
-MusicLinks.prototype.play = function(trackNumber){
 
-	if(this.musicPlayer !== undefined)
-		this.stop();
-
-	if(trackNumber === undefined)
-		var trackNumber = this.track;
-	else
-		this.track = trackNumber;
-
-	if(this.debug){
-		console.log('playing ' +this.track)
-		console.log(this.linkList);
-	}
-
-	this.playerStatus = "playing";
-	this.togglePlay();
-
-	var that = this;
-	var trackUrl = "/tracks/" + this.linkList[trackNumber].info.id;
-
-
-	SC.stream(trackUrl,{
-		autoPlay:true,
-		multiShotEvents: true,
-		onfinish:function(){that.next();},
-	}, function(player){
-		that.musicPlayer = player;
-	});
-
-};
 
 MusicLinks.prototype.next = function(){
-	if(this.debug)
-		console.log("Switching to next track");
+	if(this.musicPlayer !== undefined){
 
-	this.track = ((this.track + 1)%this.linkList.length);
+		if(this.debug)
+			console.log("Switching to next track");
 
-	if(this.musicPlayer !== undefined)
-		this.play();
+		this.track = ((this.track + 1)%this.linkList.length);
+		this.togglePlay(this.track);
+	}
 };
 
 MusicLinks.prototype.previous = function(){
+	if(this.musicPlayer !== undefined){
 
-	this.track -= 1;
+		this.track -= 1;
 
-	if(this.track < 0){
-		this.track = this.linkList.length-1;
+		if(this.track < 0){
+			this.track = this.linkList.length-1;
+		}
+
+		this.togglePlay(this.track);
 	}
-
-	if(this.musicPlayer !== undefined)
-		this.play();
 };
 
 MusicLinks.prototype.stop = function(){
-	this.playerStatus = "stopped";
+
+	this.playerStatus == "stopped"
+	this.track = 0;
 
 	if(this.musicPlayer !== undefined)
 		this.musicPlayer.stop();
 };
 
-MusicLinks.prototype.pause = function(){
 
-	if(this.musicPlayer !== undefined)
-		this.musicPlayer.togglePause();
-};
+MusicLinks.prototype.togglePlay = function(track) {
 
-MusicLinks.prototype.togglePlay = function() {
 	var button = $(this.binds.play+">i");
 	button.removeClass();
 
-	if(this.playerStatus === "none" || this.playerStatus === "stopped")
-		button.addClass("icon-play");
-	else
-		button.addClass("icon-pause");
+	if (track !== undefined) {
+			this.playerStatus = "playing";
+			button.addClass("icon-pause");
+			this._play(track); //play track
+			return;
+		}
 
-	this.pause();
-};
+	if (this.musicPlayer === undefined && track === undefined){
+		this.playerStatus = "playing";
+		button.addClass("icon-pause");
+		this._play(0); //play from beggining
+		return;
+	}
+
+	
+	if(this.playerStatus === "playing")
+	{
+		this.playerStatus = "stopped";
+		button.addClass("icon-play");
+	} else  {
+		this.playerStatus = "playing";
+		button.addClass("icon-pause");
+	}
+	
+	this.musicPlayer.togglePause();
+	
+ };
+
+ MusicLinks.prototype.updateTrackInfo = function() {
+ 	var b = this.binds;
+
+
+ };
