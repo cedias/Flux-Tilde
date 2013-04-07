@@ -11,9 +11,9 @@ Demo is here => http://cedias.github.io/Flux-Tilde/app/
 
 var options = {
   firebase:'YourFirebase.firebaseIO.com',
-	soundcloud_id:'YourSCAPPId',
+	soundcloud_id:'YourSoundcloudAppId',
 	binds: {  /*The html id's that will be bind with the click action*/
-		post:'#linkForm', 
+		post:'#linkForm',
 		link:'#link', 
 		play:'#play',   
 		next:'#next', 
@@ -33,15 +33,22 @@ var ft = new FluxTilde(options);
 ```
 ##Dependencies
 
-- Jquery
-- Handlebars
+```html
+  <script src="lib/jquery.js"></script>
+  <script src="lib/handlebars.js"></script>
+  <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+  <script src="http://connect.soundcloud.com/sdk.js"></script>
+  <script src="js/FluxTilde.js"></script>
+```
+
 
 ##Todo:
-
-- Refactor code using a framework.
+- Add firebase auth.
+- Refactor code w/ angular or backbonejs + reduce dependencies.
 - Make demo more pretty :)
 
 
+##License
 
-=> MIT Licence
+MIT Licence
 

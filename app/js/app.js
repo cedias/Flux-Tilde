@@ -19,7 +19,7 @@ var options = {
 	debug:true
 }
 
-var ml = new MusicLinks(options);
+var ft = new FluxTilde(options);
 
 
 
