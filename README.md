@@ -1,7 +1,7 @@
-#Flux ~
+#Flux~
 
 
-Flux Tilde helps making playlists with Soundcloud's API and Firebase as link storage.
+Flux~ helps making playlists with Soundcloud's API and Firebase as link storage.
 
 Demo is here => http://cedias.github.io/Flux-Tilde/app/
 
