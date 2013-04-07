@@ -5,6 +5,8 @@ Flux Tilde helps making playlists with Soundcloud's API and Firebase as link sto
 
 Demo is here => http://cedias.github.io/Flux-Tilde/app/
 
+PS: Adding links is deactivated, obviously !
+
 ##Usage:
 
 ```javascript
