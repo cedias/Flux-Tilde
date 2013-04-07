@@ -43,14 +43,15 @@ margin-left: 5px;
 	padding-top: 10px;
 	padding-left: 1%;
 	width: 100%;
-	background-color: #000;
+	background-color: black;
 
 }
 
 #header_contrast {
 	margin-left: -1%;
-	background-color: black;
-	box-shadow: 5px 5px 5px white;
+	height: 5px;
+	border-top: 3px groove  #fff;
+	background-color: #fff;
 }
 
 #tracks{
@@ -78,26 +79,43 @@ padding:10px 15px 15px 15px;
 }
 
 #controls {
-	position: absolute;
 	width: 130px;
 	margin: auto;
-	bottom: -5px;
-	height: 40px;
-	right:50%;
-	background-color: #fafafa;
-	border-radius: 5px;
-	box-shadow: 2px 5px 5px black;
-	padding:10px 15px 15px 15px;
-	overflow: hidden;
+	margin-top: 3%;
 }
+
  #info {
  	width:100%;
+ 	margin-top: 15%;
 
  }
 
- #info > img {
+ #song_header {
+ 	margin-bottom: 3%;
+ }
+
+  #song_header > * 
+ {
+ 	display: inline-block;
+ 	vertical-align: bottom;
+ }
+
+ #song_header > img {
  	border: 5px solid black;
+ 	margin-right: 5px;
  }
+
+ #song_header > h3 {
+ 	font-weight: bold;
+ }
+
+  #song_header > * > a {
+ 	font-weight: normal;
+ 	text-decoration: none;
+ 	cursor: pointer;
+ 	font-size: 1em;
+ }
+
 
 
 #tracks_div ::-webkit-scrollbar{width:9px;height:9px;}
