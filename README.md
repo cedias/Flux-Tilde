@@ -46,7 +46,9 @@ var ft = new FluxTilde(options);
 
 ##Todo:
 - Add firebase auth.
-- Refactor code w/ angular or backbonejs + reduce dependencies.
+- Add update methods (Delete + Reorganise)
+- Add Options to post
+- Take view off Object & redo app w/ framework...
 - Make demo more pretty :)
 
 
