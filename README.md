@@ -7,6 +7,13 @@ Demo is here => http://cedias.github.io/Flux-Tilde/app/
 
 PS: Adding links is deactivated, obviously !
 
+##Try it locally ! (You need nodeJs thought)
+
+- Download 
+- Launch scripts/web-server.js
+- go to http://localhost:8000/app/index.html
+
+
 ##Usage:
 
 ```javascript
@@ -45,12 +52,12 @@ var ft = new FluxTilde(options);
 
 
 ##Todo:
+- Refactor to extract properly view & model.
 - Add firebase auth.
 - Add update methods (Delete + Reorganise)
 - Add Options to post
-- Take view off Object & redo app w/ framework...
-- Make demo more pretty :)
 
+- Make demo more pretty :)
 
 ##License
 
