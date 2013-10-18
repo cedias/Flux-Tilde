@@ -7,34 +7,21 @@ function FluxTilde (args) {
 	this.templates = args.templates;
 	this.debug = args.debug;
 	this.firebase = new Firebase(args.firebase);
-
-	/*Track list*/
-	this.tracks = [];
-	
-	/*Actual Track*/
-	this.track = 0;
-
-	/*Player Status : ['none', 'playing', 'stopped'] */
-	this.playerStatus = "none";
+	this.player = undefined; //to get the flux object
+	this.tracks = [] ; //fb objects
+	this.index = 0;
 
 	this._init();
 
-}
-
-/*Initialize Soundcloud & Binds view w/ events*/
-FluxTilde.prototype._init = function(){
-
-	//init soundcloud api
-	SC.initialize({client_id:this.soundcloudId});
-
-	//bind player controls
-	this._bindControls();
-
-	//binds firebase list to app
-	if(this.binds.element_list !== undefined)
-		this._bindList();
 
 };
+
+
+FluxTilde.prototype._init = function(){
+	this._bindList();
+	this._bindControls();
+	this._switchInfo(this.index);
+}
 
 /* binds the Firebase list with the html view */
 /* TODO: Generics, firebase as an option...*/
@@ -42,14 +29,10 @@ FluxTilde.prototype._bindList = function() {
 	var that = this;
 	var b = this.binds;
 	var template = $(this.templates.element).html();
-
-	//on dataChange
-	this.firebase.on('value', function(snapshot) {
-
-		//reseting tracks
-		that.tracks = [];
+	var urls = [];
+	this.firebase.on('value',function(snapshot){
+		
 		$(b.element_list).html("");
-
 		//iterating over links
 		snapshot.forEach(function(child){
 
@@ -57,12 +40,13 @@ FluxTilde.prototype._bindList = function() {
 	  		var temp = Handlebars.compile(template);
 
 	  		//saving each track
-			that.tracks.push(child.val());
+			that.tracks.push(msgData);
+			
+			urls.push(msgData.url);
 			//adding element to list
 	  		$(b.element_list).append(temp(msgData));
 
 		});
-
 
 		//unbind previous binds
 		$(b.elementList+' li').off('click');
@@ -70,12 +54,21 @@ FluxTilde.prototype._bindList = function() {
 		//binding clickEvent on music list
 	  	var items = $(b.element_list+' li').on('click',function() {
 			    var index = items.index(this);
-			    that.togglePlay(index);
+			    that._switchInfo(index);
+			    that.player.selectStream(index);
 			    if(that.debug){
 			    	console.log("Clicked on: " +index);
 			    }
 		});
 
+		that.player = new Flux({
+			SCid : that.soundcloudId,
+			links : urls,
+			autostart : false,
+			autoplay : true,
+			repeat : true,
+			debug:true,		
+		});
 	});
 };
 
@@ -92,55 +85,29 @@ FluxTilde.prototype._bindControls = function() {
 
 	/*Play button*/
 	$(b.play).on('click', function(){
-		that.togglePlay();
+		that._switchInfos(that.player.togglePlay());
 	});
 
 	/*Next button*/
 	$(b.next).on('click',function(){
-		that.next();
+		that._switchInfos(that.player.next());
+		
 	});
 
 	/*Previous button*/
 	$(b.previous).on('click',function(){
-		that.previous();
+		that._switchInfos(that.player.previous());
 	});
 
 }
 
-/*Stream the sound trackNumber*/
-FluxTilde.prototype._play = function(trackNumber){
+FluxTilde.prototype._switchInfo = function(index){
+	var template = $(this.templates.info).html();
+	var temp = Handlebars.compile(template);
+	$("#playing").html(temp(this.tracks[index]));
 
-	if(this.musicPlayer !== undefined)
-		this.musicPlayer.stop();
+}
 
-
-	if(trackNumber === undefined)
-		var trackNumber = this.track;
-	else
-		this.track = trackNumber;
-
-	if(this.debug){
-		console.log('playing :');
-		console.log(this.tracks[this.track]);
-	}
-
-
-	var that = this;
-	var trackUrl = "/tracks/" + this.tracks[trackNumber].info.id;
-	this.updateTrackInfo(); //update view.
-
-
-	SC.stream(trackUrl,{
-		onfinish:function(){
-			that.next();
-		},
-	}, function(player){
-		player.play();
-		that.musicPlayer = player;
-		/*TODO: Maybe use only one instance of SM2 Object...*/
-	});
-
-};
 
 /* Makes the ajax request to post a new url */
 FluxTilde.prototype._post = function(url) {
@@ -160,88 +127,3 @@ FluxTilde.prototype._post = function(url) {
 };
 
 
-/* Switch to next track */
-FluxTilde.prototype.next = function(){
-	if(this.musicPlayer !== undefined){
-
-		if(this.debug)
-			console.log("Switching to next track");
-
-		this.track = ((this.track + 1)%this.tracks.length);
-		this.togglePlay(this.track);
-	}
-};
-
-/* Switch to previous track */
-FluxTilde.prototype.previous = function(){
-	if(this.musicPlayer !== undefined){
-
-		if(this.debug)
-			console.log("Switching to previous track");
-
-		this.track -= 1;
-
-		if(this.track < 0){
-			this.track = this.tracks.length-1;
-		}
-
-		this.togglePlay(this.track);
-	}
-};
-
-/* Stops the music - Not implemented in view...*/
-FluxTilde.prototype.stop = function(){
-
-	this.playerStatus == "stopped"
-	this.track = 0;
-
-	if(this.musicPlayer !== undefined)
-		this.musicPlayer.stop();
-};
-
-
-/* Handles play/pause function in the view */
-/* BAD: Model & View = tied in one function */
-FluxTilde.prototype.togglePlay = function(track) {
-
-	var button = $(this.binds.play+">i");
-	button.removeClass();
-
-	if (track !== undefined) {
-			this.playerStatus = "playing";
-			button.addClass("icon-pause");
-			this._play(track); //play track
-			return;
-		}
-
-	if (this.musicPlayer === undefined && track === undefined){
-		this.playerStatus = "playing";
-		button.addClass("icon-pause");
-		this._play(0); //play from beggining
-		return;
-	}
-
-	
-	if(this.playerStatus === "playing")
-	{
-		this.playerStatus = "stopped";
-		button.addClass("icon-play");
-	} else  {
-		this.playerStatus = "playing";
-		button.addClass("icon-pause");
-	}
-	
-	this.musicPlayer.togglePause();
-	
- };
-
-/*Updates view for track info*/
- FluxTilde.prototype.updateTrackInfo = function() {
- 	var template = $(this.templates.info).html();
- 	var infoBox = $(this.binds.info);
- 	var track = this.tracks[this.track];
- 	var temp = Handlebars.compile(template);
-
- 	infoBox.html(temp(track));
-
- };
