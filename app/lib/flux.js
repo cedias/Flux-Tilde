@@ -12,6 +12,7 @@ function Flux(args){
 	this.autostart = args.autostart;
 	this.repeat = args.repeat;
 	this.debug = args.debug;
+	this.onfinish = args.onfinish;
 
 	//Transform the links to streams
 	this._linksToStreams(args.links); // /!\ asynchronous
@@ -57,6 +58,8 @@ Flux.prototype._eventManager = function(evt){
 		{
 			this.next();
 		}
+		if(this.onfinish!= undefined)
+			this.onfinish();
 	}
 
 	if(evt.msg === "Error")
@@ -104,7 +107,7 @@ Flux.prototype.setVolume = function(volume){
 };
 
 Flux.prototype.getVolume = function(){
-	this.streams[this.currentStream].getVolume();
+	return this.streams[this.currentStream].getVolume();
 };
 
 Flux.prototype.setPosition = function(time){
@@ -113,7 +116,7 @@ Flux.prototype.setPosition = function(time){
 };
 
 Flux.prototype.getPosition = function(){
-	this.streams[this.currentStream].getPosition();
+	return this.streams[this.currentStream].getPosition();
 };
 
 
@@ -126,6 +129,7 @@ Flux.prototype.next = function(){
 
 	if(this.autoplay)
 		this.togglePlay();
+	return this.currentStream;
 };
 
 Flux.prototype.previous = function(){
@@ -138,6 +142,7 @@ Flux.prototype.previous = function(){
 
 	if(this.autoplay)
 		this.togglePlay();
+	return this.currentStream;
 };
 
 Flux.prototype.selectStream = function(song) {

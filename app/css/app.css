@@ -5,7 +5,7 @@ body{
 
 input#link
 {
-margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 i{
@@ -34,6 +34,14 @@ h3{
 	background-color:#ccc;
 	border-top: 1px #aeaeae solid;
 	height:31px;
+}
+
+#duration{
+	margin-top:1px;
+	margin-bottom:1px;
+	height:90%;
+	background-color:#ddd;
+	width:0px;
 }
 
 #clear_bg{
@@ -70,23 +78,36 @@ i:hover{
 #previous{
 	position:fixed;
 	left:10px;
-	top:50%;
+	top:240px;
 }
 
 #next{
 	position:fixed;
 	right:10px;
-	top:50%;
+	top:240px;
+}
+
+#play{
+	position:relative;
+	top:70px;
+	left:-760px;
+}
+
+#toggle_admin{
+	float:right;
+	margin-right:30px;
 }
 
 #admin {
-height: 140px;
-left:5px;
-bottom:-5px;
-margin:auto;
-padding:10px 15px 15px 15px;
+	height: 30px;
+	left:5px;
+	bottom:-5px;
+	margin:auto;
+	padding:10px 15px 15px 15px;
+}
 
-
+#admin_panel{
+	display:none;
 }
 
 ul#tracks li{
@@ -95,9 +116,11 @@ ul#tracks li{
 }
 
 
-#controls {
-	width: 120px;
-	margin: auto;
+.controls {
+	color:#c9c9c9;
+}
+.controls:hover {
+	color:black;
 }
 
 #playing{
@@ -110,11 +133,21 @@ ul#tracks li{
 }
 
 #playing_img{
-	width:150px;
+	width:150px;	
 	height:150px;
 	border-radius:250px;
 	margin-left:25px;
 	margin-top:25px;
 	margin-right:25px;
+
+}
+
+
+#footer{
+	background:white;
+	text-align:center;
+	width:100%;
+	padding-top:30px;
+	height:100px;
 
 }

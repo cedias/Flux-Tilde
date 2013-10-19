@@ -1,88 +1,79 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <title>Flux.me</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="css/app.css"/>
-<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-</head>
-<body>
-  <div id="header" >
-    <h1>Flux~</h1>
-    <div id="header_contrast">
-     </div> 
-  </div>
+	<head>
+		<meta charset="utf-8">
+		<title>Flux.me</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="css/app.css"/>
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	</head>
+	<body>
+		<div id="header" >
+			<h1>Flux</h1>
+			<div id="header_contrast">
+				<div id="duration"></div>
+				</div> 
+			</div>
 
-<i id="previous" class="icon-backward icon-4x"></i>
-          <span class="icon-stack" id="play"><i class="icon-play icon-2x"> </i> <i class="icon-pause icon-2x"> </i></span>
- <i id="next" class="icon-forward icon-4x"> </i>
+		<i id="previous" class="icon-backward icon-4x controls"></i>
+		<i id="next" class="icon-forward icon-4x controls"> </i>
 
-<div id="playing" class="container row">
- 	<img  id="playing_img" src="http://www.imonlydreaming.net/wp-content/uploads/2013/06/chvrches-3.jpg" class="span4"/>
-   	<div id="info" class="span8">
+
+		<div id="playing" class="container row">
+			<h3> Choose a song below.</h3>
+		</div>
+
+		<div id="clear_bg">
+			<div class="container">
+				<div id="tracks_div"> 
+					<ul id="tracks">
+						<p style="text-align:center"> <i class="icon-spinner icon-4x icon-spin"></i></p>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="admin">
+			<i id="toggle_admin" class="icon-plus icon-2x"></i>
+			<div id="admin_panel">
+				<h3>Admin</h3>
+				<input type="text" name="link" id="link" placeholder="Enter a Soundcloud URL" />
+				<button id="linkForm" class="btn  btn-primary" type="button">Add to playlist</button>
+			</div>
+		</div>
+
+		<div id="footer">
+			<h4> Flux, a <a href="http://soundcloud.com">soundcloud</a> powered playlist </h4>
+		</div>
+	</body>
+
+	<script id="element-template" type="text/x-handlebars-template">
+	{{#if info.artwork_url}}
+		<li class="track"> <img src="{{ info.artwork_url }}" /> </li>
+	{{else}}
+	<li class="track"> <img src="{{ info.user.avatar_url }}" /> </li>
+		{{/if}}
+	</script>
+
+	<script id="info-template" type="text/x-handlebars-template">
+
+	<img  id="playing_img" src="{{info.user.avatar_url}}" class="span4"></img>
+	<div id="info" class="span8">
 		<div id="song_header">
-		<h3>CHVRCHES</h3>
-		<a href="#"> The Mother We Share</a> 
-	      	</div>
-	<p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada neque augue, a malesuada diam. Nulla sit amet tellus et ante convallis volutpat eget eu mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque adipiscing scelerisque auctor. Fusce laoreet aliquet vulputate. Integer rhoncus fermentum molestie. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat. Phasellus eros sem, lobortis et pretium nec, blandit eu neque. Sed vel eros commodo risus posuere tristique eu quis dolor. Nunc vitae tortor dolor.
-      </p>
-    </div>
-</div>
-  
- <div id="clear_bg">
-  <div class="container">
-
-    <div id="tracks_div"> 
-    <ul id="tracks">
-	<i class="icon-refresh icon-4x icon-spin"></i>
-    </ul>
-    </div>
-
-  </div>
-</div>
-
-  
- 
-  <div id="admin">
-    <h3>Admin</h3>
-    <div>
-      <input type="text" name="link" id="link" placeholder="Enter a Soundcloud URL" />
-      <button id="linkForm" class="btn  btn-primary" type="button">Add to playlist</button>
-    </div>
-  </div>
-</body>
-
-  <script id="element-template" type="text/x-handlebars-template">
-        {{#if info.artwork_url}}
-          <li class="track"> <img src="{{ info.artwork_url }}" /> </li>
-        {{else}}
-          <li class="track"> <img src="{{ info.user.avatar_url }}" /> </li>
-        {{/if}}
-  </script>
-
-  <script id="info-template" type="text/x-handlebars-template">
-<img  id="playing_img" src="{{info.user.avatar_url}}" class="span4"/>
-   	<div id="info" class="span8">
-		<div id="song_header">
-		<h3>{{info.user.username}}</h3>
-		<a href="{{ info.permalink_url }}"> {{info.title}} </a> 
-	      	</div>
-	<p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada neque augue, a malesuada diam. Nulla sit amet tellus et ante convallis volutpat eget eu mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque adipiscing scelerisque auctor. Fusce laoreet aliquet vulputate. Integer rhoncus fermentum molestie. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat. Phasellus eros sem, lobortis et pretium nec, blandit eu neque. Sed vel eros commodo risus posuere tristique eu quis dolor. Nunc vitae tortor dolor.
-      </p>
-    </div>
-  </script>
-
-  <script src="lib/jquery.js"></script>
-  <script src="lib/bootstrap.min.js"></script>
-  <script src="lib/handlebars.js"></script>
-  <script src="http://connect.soundcloud.com/sdk.js"></script>
-  <script src="lib/flux.js"></script>
-  <script src="lib/stream_soundcloud.js"></script >
-  <script src='https://cdn.firebase.com/v0/firebase.js'></script>
-  <script src="js/FluxTilde.js"></script>
-  <script src="js/app.js"></script>
-
+			<h3>{{info.user.username}}</h3>
+			<a href="{{ info.permalink_url }}"> {{info.title}} </a> 
+		</div>
+		<p>
+		{{ info.description }}
+		</p>
+	</div>
+	</script>
+	<script src="lib/jquery.js"></script>
+	<script src="lib/bootstrap.min.js"></script>
+	<script src="lib/handlebars.js"></script>
+	<script src="http://connect.soundcloud.com/sdk.js"></script>
+	<script src="lib/flux.js"></script>
+	<script src="lib/stream_soundcloud.js"></script >
+	<script src='https://cdn.firebase.com/v0/firebase.js'></script>
+	<script src="js/FluxTilde.js"></script>
+	<script src="js/app.js"></script>
 </html>
