@@ -75,3 +75,7 @@ Stream_Soundcloud.prototype.setPosition = function(time){
 Stream_Soundcloud.prototype.getPosition = function(){
 	return this.player.position;
 };
+
+Stream_Soundcloud.prototype.getLength = function(){
+	return this.player.duration;
+};

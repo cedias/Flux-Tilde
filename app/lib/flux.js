@@ -119,6 +119,10 @@ Flux.prototype.getPosition = function(){
 	return this.streams[this.currentStream].getPosition();
 };
 
+Flux.prototype.getLength = function(){
+	return this.streams[this.currentStream].getLength();
+};
+
 
 /*Flux Methods*/
 

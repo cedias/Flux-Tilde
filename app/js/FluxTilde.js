@@ -26,26 +26,26 @@ FluxTilde.prototype._init = function(){
 		this._switchInfo(this.index);
 }
 
-/* binds the Firebase list with the html view */
-/* TODO: Generics, firebase as an option...*/
+/* binds the Firebase list with the html view  - FIREBASE OBJECT ?*/
+/* TODO: Generics, firebase as an option...*/  
 FluxTilde.prototype._bindList = function() {
 	var that = this;
 	var b = this.binds;
 	var template = $(this.templates.element).html();
 	var urls = [];
-	this.firebase.on('value',function(snapshot){
+	this.firebase.on('value',function fbase_value(snapshot){
 		
 		$(b.element_list).html("");
 		//iterating over links
-		snapshot.forEach(function(child){
+		snapshot.forEach(function fbase_value_foreach(child){
 
 			var msgData = child.val();
 	  		var temp = Handlebars.compile(template);
 
 	  		//saving each track
 			that.tracks.push(msgData);
-			
 			urls.push(msgData.url);
+
 			//adding element to list
 	  		$(b.element_list).append(temp(msgData));
 
@@ -53,6 +53,16 @@ FluxTilde.prototype._bindList = function() {
 
 		//unbind previous binds
 		$(b.elementList+' li').off('click');
+
+		//instanciate music player
+		that.player = new Flux({
+			SCid : that.soundcloudId,
+			links : urls,
+			autostart : false,
+			autoplay : true,
+			repeat : true,
+			debug:true,		
+		});
 
 		//binding clickEvent on music list
 	  	var items = $(b.element_list+' li').on('click',function() {
@@ -62,16 +72,6 @@ FluxTilde.prototype._bindList = function() {
 			    if(that.debug){
 			    	console.log("Clicked on: " +index);
 			    }
-		});
-		
-
-		that.player = new Flux({
-			SCid : that.soundcloudId,
-			links : urls,
-			autostart : false,
-			autoplay : true,
-			repeat : true,
-			debug:true,		
 		});
 	});
 };
@@ -129,19 +129,20 @@ FluxTilde.prototype._switchInfo = function(index){
 	var template = $(this.templates.info).html();
 	var temp = Handlebars.compile(template);
 	var that = this;
+	window.flxplayer = this.player; /*sad sad sad :'(*/
 	$("#playing").html(temp(this.tracks[index]));
-	//clearInterval(this.duration);
-	//this.duration = setInterval(this._updateDuration,1000);
+	clearInterval(this.duration);
+	this.duration = setInterval(that._updateDuration,1000);
 
 };
 
-/*
+
 FluxTilde.prototype._updateDuration = function(){
-	var val = this.player.getPosition();	
-	$("#duration").width(val);
+	var val = window.flxplayer.getPosition();	
+	$("#duration").width(val/1000);
 };
-*/
-/* Makes the ajax request to post a new url */
+
+/* Makes the ajax request to post a new url  -  FIREBASE OBJECT ?*/
 FluxTilde.prototype._post = function(url) {
 	var bd = this.firebase;
 	var clientid = this.soundcloudId;
