@@ -132,14 +132,16 @@ FluxTilde.prototype._switchInfo = function(index){
 	window.flxplayer = this.player; /*sad sad sad :'(*/
 	$("#playing").html(temp(this.tracks[index]));
 	clearInterval(this.duration);
-	this.duration = setInterval(that._updateDuration,1000);
+	this.duration = setInterval(that._updateDuration,500);
 
 };
 
 
 FluxTilde.prototype._updateDuration = function(){
-	var val = window.flxplayer.getPosition();	
-	$("#duration").width(val/1000);
+    var player = window.flxplayer;
+    var val = Math.floor((player.getPosition()/player.getLength())*100);
+    console.log("val: "+val);
+    $("#duration").css({width: val+"%"});
 };
 
 /* Makes the ajax request to post a new url  -  FIREBASE OBJECT ?*/
