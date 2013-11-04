@@ -3,9 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Flux.me</title>
-		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+		
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+
 		<link rel="stylesheet" href="css/app.css"/>
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	</head>
 	<body>
 		<div id="header" >
@@ -15,8 +17,8 @@
 				</div> 
 			</div>
 
-		<i id="previous" class="icon-backward icon-4x controls"></i>
-		<i id="next" class="icon-forward icon-4x controls"> </i>
+		<i id="previous" class="fa fa-backward fa-4x controls"></i>
+		<i id="next" class="fa fa-forward fa-4x controls"> </i>
 
 
 		<div id="playing" class="container row">
@@ -27,17 +29,22 @@
 			<div class="container">
 				<div id="tracks_div"> 
 					<ul id="tracks">
-						<p style="text-align:center"> <i class="icon-spinner icon-4x icon-spin"></i></p>
+						<p style="text-align:center"> <i class="fa fa-spinner fa-4x fa-spin"></i></p>
 					</ul>
 				</div>
 			</div>
 		</div>
 		<div id="admin">
-			<i id="toggle_admin" class="icon-plus icon-2x"></i>
+			<i id="toggle_admin" class="fa fa-plus fa-2x"></i>
 			<div id="admin_panel">
 				<h3>Admin</h3>
-				<input type="text" name="link" id="link" placeholder="Enter a Soundcloud URL" />
-				<button id="linkForm" class="btn  btn-primary" type="button">Add to playlist</button>
+				<form role="form" class="form-horizontal">
+					<div class="form-group">
+						<label for="link">SoundCloud URL:</label>
+						<input type="text" name="link" id="link" class="form-control" placeholder="Enter a Soundcloud URL" />
+						<button id="linkForm" class="btn  btn-primary" type="button">Add to playlist</button>
+					</div>
+				</form>
 			</div>
 		</div>
 
@@ -67,8 +74,9 @@
 		</p>
 	</div>
 	</script>
-	<script src="lib/jquery.js"></script>
-	<script src="lib/bootstrap.min.js"></script>
+
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
 	<script src="lib/handlebars.js"></script>
 	<script src="http://connect.soundcloud.com/sdk.js"></script>
 	<script src="lib/flux.js"></script>

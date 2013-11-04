@@ -2,9 +2,26 @@
 function FluxTilde (args) {
 
 	//options
+
+	this.binds = {
+		post:'#linkForm',
+		link:'#link',
+		play:'#play',
+		next:'#next',
+		previous:'#previous',
+		element_list:'#tracks',
+		info:'#info',
+		toggle_admin:'#toggle_admin',
+		admin:"#admin",
+		admin_panel:"#admin_panel"
+	};
+
+	this.templates ={
+		element:'#element-template',
+		info:'#info-template'
+	};
+
 	this.soundcloudId = args.soundcloud_id;
-	this.binds = args.binds;
-	this.templates = args.templates;
 	this.debug = args.debug;
 	this.firebase = new Firebase(args.firebase);
 	this.player = undefined; //to get the flux object
@@ -26,8 +43,6 @@ FluxTilde.prototype._init = function(){
 		this._switchInfo(this.index);
 }
 
-/* binds the Firebase list with the html view  - FIREBASE OBJECT ?*/
-/* TODO: Generics, firebase as an option...*/  
 FluxTilde.prototype._bindList = function() {
 	var that = this;
 	var b = this.binds;
@@ -105,20 +120,20 @@ FluxTilde.prototype._bindControls = function() {
 	});
 	
 	/*Toggle admin*/
-	$("#toggle_admin").on('click',function toggleAdmin(){
-		if($(this).hasClass("icon-minus"))
+	$(b.toggle_admin).on('click',function toggleAdmin(){
+		if($(this).hasClass("fa-minus"))
 		{
-			$(this).removeClass("icon-minus");
-			$("#admin").height(30);
-			$("#admin_panel").hide();
-			$(this).addClass("icon-plus");
+			$(this).removeClass("fa-minus");
+			$(b.admin).height(50);
+			$(b.admin_panel).hide();
+			$(this).addClass("fa-plus");
 		}
 		else
 		{
-			$(this).removeClass("icon-plus");
-			$("#admin").height(100);
-			$("#admin_panel").show();
-			$(this).addClass("icon-minus");
+			$(this).removeClass("fa-plus");
+			$(b.admin).height(100);
+			$(b.admin_panel).show();
+			$(this).addClass("fa-minus");
 		}
 			
 	});

@@ -28,6 +28,7 @@ h3{
 	font-weight:bold;
 	margin-bottom:0px;
 	font-size:35px;
+	margin-left: 1%;
 }
 
 #header_contrast{
@@ -77,14 +78,14 @@ i:hover{
 
 #previous{
 	position:fixed;
-	left:10px;
-	top:240px;
+	left:1%;
+	top:40%;
 }
 
 #next{
 	position:fixed;
-	right:10px;
-	top:240px;
+	right:1%;
+	top:40%;
 }
 
 #play{
@@ -99,7 +100,7 @@ i:hover{
 }
 
 #admin {
-	height: 30px;
+	height: 50px;
 	left:5px;
 	bottom:-5px;
 	margin:auto;
